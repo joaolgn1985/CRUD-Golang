@@ -20,3 +20,11 @@
 28/03/2022 20:19:35 - https://uol.com.br- online: true
 28/03/2022 20:19:37 - https://grupojll.com.br- online: true
 28/03/2022 20:19:38 - https://random-status-code.herokuapp.com- online: false
+28/03/2022 20:47:48 - https://google.com.br- online: true
+28/03/2022 20:47:51 - https://uol.com.br- online: true
+28/03/2022 20:47:53 - https://grupojll.com.br- online: true
+28/03/2022 20:47:54 - https://random-status-code.herokuapp.com- online: false
+28/03/2022 20:48:00 - https://google.com.br- online: true
+28/03/2022 20:48:00 - https://uol.com.br- online: true
+28/03/2022 20:48:02 - https://grupojll.com.br- online: true
+28/03/2022 20:48:03 - https://random-status-code.herokuapp.com- online: true

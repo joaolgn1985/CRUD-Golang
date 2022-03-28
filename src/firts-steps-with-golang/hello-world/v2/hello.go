@@ -12,65 +12,64 @@ import (
 	"time"
 )
 
-const monitoramentos = 2
+const monitoring = 2
 const delay = 5
 
 func main() {
-	exibeIntroducao()
-	//leSitesDoArquivo()
-	//registraLog("site-falso", false)
-	for {
-		exibeMenu()
+	showIntroduction()
 
-		comando := leComando()
+	for {
+		showMenu()
+
+		comando := readComand()
 
 		switch comando {
 		case 1:
-			iniciaMonitoramento()
+			startMonitoring()
 		case 2:
-			fmt.Println("Exibindo logs...")
-			imprimeLogs()
+			fmt.Println("Showing logs...")
+			printLogs()
 		case 0:
-			fmt.Println("Saindo do sistema...")
+			fmt.Println("Exiting of the system...")
 			os.Exit(0)
 		default:
-			fmt.Println("Não conheço este comando")
+			fmt.Println("Don't know this command")
 			os.Exit(-1)
 		}
 	}
 }
 
-func exibeIntroducao() {
-	nome := "Joao Lobo"
-	versao := 1.2
-	fmt.Println("Olá, sr.", nome)
-	fmt.Println("Este sistema está na versão", versao)
+func showIntroduction() {
+	name := "Joao Lobo"
+	version := 1.2
+	fmt.Println("Hi, sr.", name)
+	fmt.Println("This system is in version", version)
 }
 
-func exibeMenu() {
-	fmt.Println("1 - Iniciar Monitoramento")
-	fmt.Println("2 - Exibir Logs")
-	fmt.Println("0 - Sair do Sistema")
+func showMenu() {
+	fmt.Println("1 - Starting Monitoring")
+	fmt.Println("2 - Show Logs")
+	fmt.Println("0 - Exit of the system")
 }
 
-func leComando() int {
-	var comandoLido int
-	fmt.Scan(&comandoLido)
-	fmt.Println("O comando escolhido foi", comandoLido)
+func readComand() int {
+	var comandRead int
+	fmt.Scan(&comandRead)
+	fmt.Println("The command chosen was", comandRead)
 	fmt.Println("")
 
-	return comandoLido
+	return comandRead
 }
 
-func iniciaMonitoramento() {
-	fmt.Println("Monitorando...")
+func startMonitoring() {
+	fmt.Println("Monitoring...")
 
-	sites := leSitesDoArquivo()
+	sites := readSitesOfFile()
 
-	for i := 0; i < monitoramentos; i++ {
+	for i := 0; i < monitoring; i++ {
 		for i, site := range sites {
-			fmt.Println("Testando site", i, ":", site)
-			testaSite(site)
+			fmt.Println("Testing website", i, ":", site)
+			testSite(site)
 		}
 		time.Sleep(delay * time.Second)
 		fmt.Println("")
@@ -79,62 +78,62 @@ func iniciaMonitoramento() {
 	fmt.Println("")
 }
 
-func testaSite(site string) {
+func testSite(site string) {
 	resp, err := http.Get(site)
 
 	if err != nil {
-		fmt.Println("Ocorreu um erro:", err)
+		fmt.Println("An error has occurred:", err)
 	}
 
 	if resp.StatusCode == 200 {
-		fmt.Println("Site:", site, "foi carregado com sucesso!")
-		registraLog(site, true)
+		fmt.Println("Site:", site, "Has been uploaded successfully!")
+		registryLog(site, true)
 	} else {
-		fmt.Println("Site:", site, "está com problemas. Status Code:", resp.StatusCode)
-		registraLog(site, false)
+		fmt.Println("Site:", site, "It has problems. Status Code:", resp.StatusCode)
+		registryLog(site, false)
 	}
 }
 
-func leSitesDoArquivo() []string {
+func readSitesOfFile() []string {
 	var sites []string
 
-	arquivo, err := os.Open("arquivo.txt")
+	file, err := os.Open("files.txt")
 	if err != nil {
-		fmt.Println("Ocorreu um erro", err)
+		fmt.Println("An error has occurred", err)
 	}
-	leitor := bufio.NewReader(arquivo)
+	reader := bufio.NewReader(file)
 	for {
-		linha, err := leitor.ReadString('\n')
-		linha = strings.TrimSpace(linha)
+		line, err := reader.ReadString('\n')
+		line = strings.TrimSpace(line)
 
-		sites = append(sites, linha)
+		sites = append(sites, line)
 
-		fmt.Println(linha)
+		fmt.Println(line)
 		if err == io.EOF {
 			break
 		}
 	}
-	arquivo.Close()
+	file.Close()
 	return sites
 }
 
-func registraLog(site string, status bool) {
+func registryLog(site string, status bool) {
 
-	arquivo, err := os.OpenFile("log.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666 )
+	file, err := os.OpenFile("log.txt", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666 )
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	arquivo.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + site + "- online: " + strconv.FormatBool(status) + "\n")
+	file.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + site + "- online: " + strconv.FormatBool(status) + "\n")
 
-	arquivo.Close()
+	file.Close()
 }
 
-func imprimeLogs(){
-	arquivo, err := ioutil.ReadFile("log.txt")
+func printLogs(){
+	file, err := ioutil.ReadFile("log.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(string(arquivo))
+	fmt.Println(string(file))
 }
