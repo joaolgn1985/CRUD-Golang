@@ -37,7 +37,7 @@ package main
 import "fmt"
 
 func main(){
-    fmt.Println("Hello World com Go!")
+    fmt.Println("Hello World with Go!")
 }
 ```
 
@@ -46,7 +46,7 @@ To run our code, just use the command `go run hello.go` in the terminal inside t
 ```
 // Terminal
 go run hello.go
-Hello World com Go!
+Hello World with Go!
 ```
 
 # Function fmt.Scan()
